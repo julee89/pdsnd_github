@@ -1,0 +1,207 @@
+---
+title: "Udacity Bikeshare Project"
+author: "Jung Lee"
+date: "10/22/2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#install.packages('tinytex')
+#tinytex::install_tinytex()
+#install.packages('rmarkdown')
+```
+
+##Preparing workspace
+```{r, echo=TRUE}
+rm(list = ls())
+library(ggplot2)
+```
+
+##Loading Data
+```{r data}
+#set working directory for project
+#setwd("~/Documents/School/Udacity_2020/R Module")
+
+#load all data
+ch <- read.csv("/Users/junglee/Documents/School/Udacity_2020/R Module/chicago.csv")
+ny <- read.csv("/Users/junglee/Documents/School/Udacity_2020/R Module/new-york-city.csv")
+dc <- read.csv("/Users/junglee/Documents/School/Udacity_2020/R Module/washington.csv")
+```
+
+##Initial exploration of data - Chicago
+```{r explore data - Chicago}
+#Understanding Chicago dataset
+head(ch, 10)
+summary(ch)
+```
+##Initial exploration of data - NY
+```{r explore data - NY }
+#Understanding NY dataset
+head(ny, 10)
+summary(ny)
+```
+##Initial exploration of data - Washington DC
+```{r explore data - Washington DC}
+#Understanding dc dataset
+head(dc,10)
+summary(dc)
+```
+###Age Dispersion of Users in Chicago and New York with Respects to Birth Year
+####What age group utilizes the bike rentals the most in Chicago?
+```{r duration - Chicago}
+summary(ch$Birth.Year)
+
+# Now that we have an idea of where a majority of our users sit in terms of birth year, we want to get a better picture of dispersion
+ggplot(aes(x=ch$Birth.Year), data = ch) +
+  geom_histogram(binwidth = 1, color = 'grey', fill = 'light blue')+
+  scale_x_continuous(limits = c(1950, 2005), breaks = seq(1950, 2015, 10))+
+  ggtitle('User age for Chicago') +
+  xlab('Birth Year') +
+  ylab('User Count')
+```
+
+From the initial summary of the birth year we can see that a majority of the users are born in 1984 with a couple outliers on the extreme endds of the chart with a min and max of 1899 and 2016 respectively. Since a the dataset is representative of data collected in 2017, it is safe to say that the extreme dates of 1899 and 2017 can be omitted from the EDA.
+
+The first chart gives us the the frequency of the each age group and we can see that a majority of the users are between the birth year 1980 and 1995.
+
+
+####What age group utilizes the bike rental the most in New York?
+```{r duration - NY}
+summary(ny$Birth.Year)
+
+# Now that we have an idea of where a majority of our users sit in terms of birth year, we want to get a better picture of dispersion
+ggplot(aes(x=ny$Birth.Year), data = ny) +
+  geom_histogram(binwidth = 1, color = 'grey', fill = 'light green')+
+  scale_x_continuous(limits = c(1950, 2005), breaks = seq(1950, 2015, 10))+
+  ggtitle('User age for New York') +
+  xlab('Birth Year') +
+  ylab('User Count')
+```
+
+Just as Chicago's data, we can see that the ages vary from 1899 to 2016 in this dataset and we can assume that the extreme outlier can be omitted in this EDA as this is data collected in 2017. The graph also shows that a majority of the users have a birth year between 1980 and 2005.
+
+
+###Duration of Service use by Birth Year
+####Duration of Use By Age in Chicago
+```{r duration & Age - Chicago}
+#Take summary of trip duration
+summary(ch$Trip.Duration)
+
+#Adjust trip duration summary to minutes
+summary(ch$Trip.Duration/60)
+
+ggplot(aes(x = ch$Birth.Year, y = (ch$Trip.Duration/60)), data = ch) +
+  geom_point(alpha = .05, 
+             position = position_jitter(h=0),
+             color = 'light blue') +
+  scale_x_continuous(limits = c(1950, 2005), breaks = seq(1950, 2005, 10)) +
+  scale_y_continuous(limits = c(1,75), breaks = seq(1,75,3)) +
+  geom_line(stat = 'summary', fun.y = mean) +
+  geom_line(stat = 'summary', fun.y = quantile, fun.args=list(probs=0.1),
+            linetype = 2, color = 'purple') +
+  geom_line(stat = 'summary', fun.y = quantile, fun.args=list(probs=.5),
+            linetype = 2, color = 'red')+
+  geom_line(stat = 'summary', fun.y = quantile, fun.args=list(probs=0.9),
+            linetype = 2, color ='brown')+
+  ggtitle('Duration of Service Use by Birth Year') +
+  xlab('Birth Year') +
+  ylab('Duration in Minutes')
+
+
+```
+
+According to the summary of the duration data, we can see that the most common duration of using the service is about 11.17 minutes, since no one would be using the service for meer seconds and the initial summary indicated that the minimum duration of use was 60 seconds, we adjusted the time to read in minutes.
+
+Then, when we plot the duration of use for each birth year we can see that the median line across all age groups sits close to the 11.17 minute value. Addtionally, we can see that there is a slight peak in duration for the bith years 1955, 1960 and a larger peak in 2000. Given their age in 2017 would be 62, 57 and 17 in 2017, respectively, we could make a guess that these ages groups do not utilize vehicles or public transportion for getting around these metropolis cities.
+
+####Duration of Use By Age in New York
+```{r duration & age - New York}
+#Take summary of trip duration
+summary(ny$Trip.Duration)
+
+#Adjust trip duration summary to minutes
+summary(ny$Trip.Duration/60)
+
+ggplot(aes(x = ny$Birth.Year, y = (ny$Trip.Duration/60)), data = ch) +
+  geom_point(alpha = .05, 
+             position = position_jitter(h=0),
+             color = 'light green') +
+  scale_x_continuous(limits = c(1950, 2005), breaks = seq(1950, 2005, 10)) +
+  scale_y_continuous(limits = c(1,75), breaks = seq(1,75,3)) +
+  geom_line(stat = 'summary', fun.y = mean) +
+  geom_line(stat = 'summary', fun.y = quantile, fun.args=list(probs=0.1),
+            linetype = 2, color = 'purple') +
+  geom_line(stat = 'summary', fun.y = quantile, fun.args=list(probs=.5),
+            linetype = 2, color = 'red')+
+  geom_line(stat = 'summary', fun.y = quantile, fun.args=list(probs=0.9),
+            linetype = 2, color ='brown')+
+  ggtitle('Duration of Service Use by Birth Year') +
+  xlab('Birth Year') +
+  ylab('Duration by Minutes')
+
+
+```
+  
+We can see that the peak of users is younger than those born before 1960, but for New York the data looks much for steady for all age groups.
+
+###Duration and Age Split by Gender
+####Duration of Use By Age and Gender in Chicago
+```{r duration & age & gender - Chicago}
+#Take summary of trip duration
+summary(ch$Gender)
+
+ch_sub <- na.omit(ch)
+summary(ch_sub$Gender)        
+
+ggplot(aes(x = ch_sub$Birth.Year, y = (ch_sub$Trip.Duration/60)), data = subset(ch_sub,!is.na(ch_sub$Gender))) +
+  geom_point(alpha = .05, 
+             position = position_jitter(h=0),
+             color = 'light blue') +
+  scale_x_continuous(limits = c(1950, 2005), breaks = seq(1950, 2005, 10)) +
+  scale_y_continuous(limits = c(1,75), breaks = seq(1,75,3)) +
+  facet_wrap(~ch_sub$Gender) +
+  geom_line(stat = 'summary', fun.y = mean) +
+  geom_line(stat = 'summary', fun.y = quantile, fun.args=list(probs=0.1),
+            linetype = 2, color = 'purple') +
+  geom_line(stat = 'summary', fun.y = quantile, fun.args=list(probs=.5),
+            linetype = 2, color = 'red')+
+  geom_line(stat = 'summary', fun.y = quantile, fun.args=list(probs=0.9),
+            linetype = 2, color ='brown')+
+  ggtitle('Duration of Service Use by Birth Year') +
+  xlab('Birth Year') +
+  ylab('Duration by Minutes')
+
+```
+
+
+####Duration of Use By Age and Gender in New York
+```{r duration & age & gender - New York}
+#Take summary of trip duration
+summary(ny$Gender)
+
+ny_sub <- na.omit(ny)
+summary(ny_sub$Gender)        
+
+ggplot(aes(x = ny_sub$Birth.Year, y = (ny_sub$Trip.Duration/60)), data = subset(ny_sub,!is.na(ny_sub$Gender))) +
+  geom_point(alpha = .05, 
+             position = position_jitter(h=0),
+             color = 'light green') +
+  scale_x_continuous(limits = c(1950, 2005), breaks = seq(1950, 2005, 10)) +
+  scale_y_continuous(limits = c(1,75), breaks = seq(1,75,3)) +
+  facet_wrap(~ny_sub$Gender) +
+  geom_line(stat = 'summary', fun.y = mean) +
+  geom_line(stat = 'summary', fun.y = quantile, fun.args=list(probs=0.1),
+            linetype = 2, color = 'purple') +
+  geom_line(stat = 'summary', fun.y = quantile, fun.args=list(probs=.5),
+            linetype = 2, color = 'red')+
+  geom_line(stat = 'summary', fun.y = quantile, fun.args=list(probs=0.9),
+            linetype = 2, color ='brown')+
+  ggtitle('Duration of Service Use by Birth Year') +
+  xlab('Birth Year') +
+  ylab('Duration by Minutes')
+
+```
+
+In general for duration of each age groups, we can see that females tend to have use the bikes for much longer durations in Chicago. However, for New York, both age groups are about even in terms of use duration. Addtionally for both New York and Chicago, we can see that there are blank not NA values present in the data. For Chicago the data is very few at only 33  rows once we remove all NA values, but for New York we have 
+998 rows that have blank values in each row.
