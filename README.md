@@ -1,14 +1,16 @@
 ### Date created
-Include the date you created this project and README file.
+November 23, 2020
 
 ### Project Title
-Replace the Project Title
+Udacity Bikeshare Project in R
 
 ### Description
-Describe what your project is about and what it does
+Analyzing bikeshare data collected from New York, Washington and Chicago, 
 
 ### Files used
-Include the files used
+chicago.csv
+new-york.csv
+washington.csv
 
 ### Credits
 It's important to give proper credit. Add links to any repo that inspired you or blogposts you consulted.
