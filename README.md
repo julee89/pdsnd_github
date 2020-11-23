@@ -5,7 +5,8 @@ November 23, 2020
 Udacity Bikeshare Project in R
 
 ### Description
-Analyzing bikeshare data collected from New York, Washington and Chicago, 
+Analyzing bikeshare data collected from New York, Washington and Chicago.
+Due to limited fields in Washington data, majority of data analyzed is in Chicago and New York.
 
 ### Files used
 chicago.csv
