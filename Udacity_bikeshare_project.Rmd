@@ -54,7 +54,7 @@ summary(ch$Birth.Year)
 
 # Now that we have an idea of where a majority of our users sit in terms of birth year, we want to get a better picture of dispersion
 ggplot(aes(x=ch$Birth.Year), data = ch) +
-  geom_histogram(binwidth = 1, color = 'grey', fill = 'light blue')+
+  geom_histogram(binwidth = 1, color = 'grey', fill = 666)+
   scale_x_continuous(limits = c(1950, 2005), breaks = seq(1950, 2015, 10))+
   ggtitle('User age for Chicago') +
   xlab('Birth Year') +
@@ -72,7 +72,7 @@ summary(ny$Birth.Year)
 
 # Now that we have an idea of where a majority of our users sit in terms of birth year, we want to get a better picture of dispersion
 ggplot(aes(x=ny$Birth.Year), data = ny) +
-  geom_histogram(binwidth = 1, color = 'grey', fill = 'light green')+
+  geom_histogram(binwidth = 1, color = 'grey', fill = 'blueviolet')+
   scale_x_continuous(limits = c(1950, 2005), breaks = seq(1950, 2015, 10))+
   ggtitle('User age for New York') +
   xlab('Birth Year') +
