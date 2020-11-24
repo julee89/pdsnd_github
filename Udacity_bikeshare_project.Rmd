@@ -26,7 +26,6 @@ library(ggplot2)
 #load all data
 ch <- read.csv("/Users/junglee/Documents/School/Udacity_2020/R Module/chicago.csv")
 ny <- read.csv("/Users/junglee/Documents/School/Udacity_2020/R Module/new-york-city.csv")
-dc <- read.csv("/Users/junglee/Documents/School/Udacity_2020/R Module/washington.csv")
 ```
 
 ##Initial exploration of data - Chicago
